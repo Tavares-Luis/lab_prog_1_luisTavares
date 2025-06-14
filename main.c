@@ -1,53 +1,110 @@
-#include <string.h>1
 #include <stdio.h>
-#include "./clientes/clientes.h"
-#include "./produtos/produtos.h"
-#include "./vendas/vendas.h"
+#include <stdlib.h> // Usado para system() e para a nova função lerOpcao()
 
-int main () {
-    int opcao = 0;
+#include "clientes/clientes.h"
+#include "produtos/produtos.h"
+#include "vendas/vendas.h"
+
+
+// Função para ler um número inteiro da entrada de forma segura.
+// Evita que o programa quebre ou entre em loop infinito se o usuário digitar letras.
+int lerOpcao() {
+    char buffer[100];
+    long opcao;
+    char *end;
+
+    // Tenta ler uma linha inteira da entrada padrão (teclado)
+    if (fgets(buffer, sizeof(buffer), stdin) != NULL) {
+        // Converte o texto lido para um número longo (strtol)
+        opcao = strtol(buffer, &end, 10);
+
+        // A conversão é válida se 'end' for diferente do início do 'buffer'
+        // e se o caractere onde a conversão parou for uma quebra de linha ou o fim do texto.
+        if (end != buffer && (*end == '\n' || *end == '\0')) {
+            return (int)opcao; // Retorna o número convertido
+        }
+    }
+
+    return -1;
+}
+
+// Pequena função para pausar a execução e esperar o usuário pressionar Enter.
+void pausar() {
+    printf("\nPressione Enter para continuar...");
+    // Loop para consumir qualquer caractere restante no buffer até encontrar o Enter ou o fim do arquivo.
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+    // Se a função lerOpcao() já consumiu o Enter, o getchar() abaixo espera por uma nova entrada.
+    if (c != '\n') {
+       getchar();
+    }
+}
+
+
+int main() {
+    int opcao;
+
     do {
-        printf("Selecione uma opcao: \n"
-               "0 = sair\n"
-               "1 = Insere cliente\n"
-               "2 = Insere produto\n"
-               "3 = Inserir venda\n"
-               "4 = Listar clientes\n"
-               "5 = Listar produtos\n"
-               "6 = Excluir cliente\n"
-               "7 = Alterar cliente\n");
-        scanf("%d", &opcao);
-        printf("\n\n");
+        // --- MELHORIA ---
+        // Limpa a tela no início de cada exibição do menu.
+        #ifdef _WIN32
+            system("cls");
+        #else
+            system("clear");
+        #endif
+
+        printf("---- SISTEMA DE VENDAS ----\n\n");
+        printf("1. Cadastrar Cliente\n");
+        printf("2. Listar Clientes\n");
+        printf("3. Cadastrar Produto\n");
+        printf("4. Listar Produtos\n");
+        printf("5. Nova Venda\n");
+        printf("6. Listar Vendas\n");
+        printf("0. Sair\n\n");
+        printf("Digite sua opcao: ");
+
+
+        opcao = lerOpcao();
 
         switch (opcao) {
             case 1:
-                insere_clientes();
+                cadastrarCliente();
+                pausar(); // Pausa para o usuário ver o resultado
                 break;
             case 2:
-                insere_produtos();
+                listarClientes();
+                pausar();
                 break;
             case 3:
-                gerar_venda();
+                cadastrarProduto();
+                pausar();
                 break;
             case 4:
-                listar_clientes();
+                listarProdutos();
+                pausar();
                 break;
             case 5:
-                listar_produtos();
+                realizarVenda();
+                pausar();
                 break;
             case 6:
-                excluir_clientes();
-                break;
-            case 7:
-                altera_clientes();
+                listarVendas();
+                pausar();
                 break;
             case 0:
-                printf("Saindo do programa\n");
+                printf("Saindo do sistema...\n");
                 break;
-            default:
-                printf("Opcao inválida!\n");
+            case -1: // Caso especial para tratar entrada de texto
+                printf("\nOpcao invalida! Voce digitou um texto. Por favor, digite apenas numeros.\n");
+                pausar();
+                break;
+            default: // Caso para números que não são opções válidas
+                printf("\nOpcao invalida! Escolha um numero entre 0 e 6.\n");
+                pausar();
                 break;
         }
+
     } while (opcao != 0);
+
     return 0;
 }
