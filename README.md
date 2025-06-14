@@ -28,4 +28,35 @@ O sistema oferece as seguintes operações básicas de um CRUD (Create, Read, Up
 
 ## 🛠️ Como Compilar e Executar
 
-Para compilar e executar o projeto, você precisará ter um compil
+Para compilar e executar o projeto, você precisará ter um compilador C (como o **GCC**) e o **CMake** instalados em sua máquina.
+
+### ✅ Usando o CLion (IDE)
+
+1.  **Abra o Projeto:** Clone ou baixe o repositório e abra a pasta do projeto no CLion.
+2.  **Aguarde o Carregamento:** O CLion identificará automaticamente o arquivo `CMakeLists.txt` e preparará o ambiente.
+3.  **Compile e Execute:** Clique no botão **Run (▶️)**. A IDE cuidará de todo o processo de compilação e execução.
+
+### 💻 Usando o Terminal (Linha de Comando)
+
+Se preferir compilar manualmente, siga os passos abaixo:
+
+```bash
+# 1. Clone o repositório (se ainda não o fez)
+git clone [https://sua-url-do-repositorio.git](https://sua-url-do-repositorio.git)
+cd nome-da-pasta-do-projeto
+
+# 2. Crie um diretório para os arquivos de compilação (build) para manter o projeto limpo
+mkdir build
+
+# 3. Acesse o diretório criado
+cd build
+
+# 4. Use o CMake para gerar os arquivos de compilação (Makefiles)
+# O '..' aponta para o diretório anterior, onde o CMakeLists.txt está localizado.
+cmake ..
+
+# 5. Compile o código-fonte usando o make
+make
+
+# 6. Execute o programa gerado
+./sistema
