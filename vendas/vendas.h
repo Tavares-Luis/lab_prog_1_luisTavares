@@ -14,7 +14,10 @@ typedef struct venda {
 } Venda;
 
 void gerar_venda();
+void listar_vendas();    // Lista todas as vendas
+void alterar_venda();    // Altera uma venda existente
+void excluir_venda();    // Exclui uma venda
+// Atualiza vendas quando um produto é alterado
+void atualizar_vendas_produto(int id_produto, const char* novo_nome, double novo_preco);
 
 #endif
-
-

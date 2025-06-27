@@ -60,6 +60,10 @@ int main() {
         printf("4. Listar Produtos\n");
         printf("5. Nova Venda\n");
         printf("6. Listar Vendas\n");
+        printf("7. Alterar Produto\n");
+        printf("8. Excluir Produto\n");
+        printf("9. Alterar Venda\n");
+        printf("10. Excluir Venda\n");
         printf("0. Sair\n\n");
         printf("Digite sua opcao: ");
 
@@ -69,7 +73,7 @@ int main() {
         switch (opcao) {
             case 1:
                 cadastrarCliente();
-                pausar(); // Pausa para o usuário ver o resultado
+                pausar();
                 break;
             case 2:
                 listarClientes();
@@ -89,6 +93,22 @@ int main() {
                 break;
             case 6:
                 listarVendas();
+                pausar();
+                break;
+            case 7:
+                alterar_produto();
+                pausar();
+                break;
+            case 8:
+                excluir_produto();
+                pausar();
+                break;
+            case 9:
+                alterar_venda();
+                pausar();
+                break;
+            case 10:
+                excluir_venda();
                 pausar();
                 break;
             case 0:

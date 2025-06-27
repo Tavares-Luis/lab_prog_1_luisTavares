@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "clientes.h"
+#include "../vendas/vendas.h"
 
 #define QTD_CLIENTE 100
 int index_cliente = 0;
@@ -39,6 +40,11 @@ void excluir_clientes() {
         printf("ID invalido!\n");
         return;
     }
+    // Verifica se existe venda com o cliente
+    if (existe_venda_com_cliente(id)) {
+        printf("Não é possível excluir: existe venda cadastrada com este cliente!\n");
+        return;
+    }
 
     for (int i = id - 1; i < index_cliente - 1; i++) {
         clientes[i] = clientes[i + 1];
@@ -63,4 +69,6 @@ void altera_clientes() {
     printf("Novo email: ");
     scanf("%s", clientes[id - 1].email);
     printf("Cliente atualizado com sucesso!\n");
+    // Atualização automática das vendas não é necessária para clientes,
+    // pois vendas só guardam o ID do cliente, não nome/email.
 }
