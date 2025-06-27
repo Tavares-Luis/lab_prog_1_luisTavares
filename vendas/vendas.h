@@ -19,5 +19,6 @@ void alterar_venda();    // Altera uma venda existente
 void excluir_venda();    // Exclui uma venda
 // Atualiza vendas quando um produto é alterado
 void atualizar_vendas_produto(int id_produto, const char* novo_nome, double novo_preco);
+int existe_venda_com_produto(int id_produto);
 
 #endif

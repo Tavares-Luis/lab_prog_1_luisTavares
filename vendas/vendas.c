@@ -8,23 +8,24 @@ Venda vendas[MAX_VENDAS];
 int ultima_venda_cadastrada = 0;
 
 void gerar_venda() {
-    listar_clientes();
-    int id_cliente;
+    int id_cliente, id_produto, quantidade;
     printf("Informe o ID do cliente: ");
     scanf("%d", &id_cliente);
+    while (getchar() != '\n');
 
-    listar_produtos();
-    int id_produto, quantidade;
     printf("Informe o ID do produto: ");
     scanf("%d", &id_produto);
+    while (getchar() != '\n');
+
     printf("Informe a quantidade: ");
     scanf("%d", &quantidade);
+    while (getchar() != '\n');
 
     if (id_cliente < 1 || id_cliente > index_cliente ||
         id_produto < 1 || id_produto > index_produto) {
         printf("ID de cliente ou produto invalido!\n");
         return;
-        }
+    }
 
     ProdutoVenda prod_venda;
     prod_venda.id_produto = id_produto;
@@ -46,9 +47,26 @@ void gerar_venda() {
 
 // Lista todas as vendas
 void listar_vendas() {
-    for (int i = 0; i < ultima_venda_cadastrada; i++) {
-        printf("Venda %d - Cliente: %d | Total: R$%.2f\n", vendas[i].id_nota_fiscal, vendas[i].id_cliente, vendas[i].valor_total);
+    printf("\n==================== LISTA DE VENDAS ====================\n");
+    if (ultima_venda_cadastrada == 0) {
+        printf("Nenhuma venda cadastrada.\n");
+        return;
     }
+    printf("%-8s | %-30s | %-30s | %-10s | %-10s\n", "Nota", "Cliente", "Produto", "Qtd", "Total (R$)");
+    printf("-------------------------------------------------------------------------------------------------------------\n");
+    for (int i = 0; i < ultima_venda_cadastrada; i++) {
+        int id_cliente = vendas[i].id_cliente;
+        int id_produto = vendas[i].produtos[0].id_produto;
+        char* nome_cliente = clientes[id_cliente-1].nome;
+        char* nome_produto = produtos[id_produto-1].nome;
+        printf("%-8d | %-30s | %-30s | %-10d | %10.2lf\n",
+            vendas[i].id_nota_fiscal,
+            nome_cliente,
+            nome_produto,
+            vendas[i].produtos[0].quantidade,
+            vendas[i].valor_total);
+    }
+    printf("-------------------------------------------------------------------------------------------------------------\n");
 }
 
 // Altera uma venda existente
@@ -56,25 +74,28 @@ void alterar_venda() {
     int id, encontrado = 0;
     printf("Digite o ID da venda a ser alterada: ");
     scanf("%d", &id);
+    while (getchar() != '\n');
+    printf("\n==== ALTERAÇÃO DE VENDA ====");
     for (int i = 0; i < ultima_venda_cadastrada; i++) {
         if (vendas[i].id_nota_fiscal == id) {
-            listar_clientes();
             printf("Novo ID do cliente: ");
             scanf("%d", &vendas[i].id_cliente);
-            listar_produtos();
+            while (getchar() != '\n');
             printf("Novo ID do produto: ");
             scanf("%d", &vendas[i].produtos[0].id_produto);
+            while (getchar() != '\n');
             printf("Nova quantidade: ");
             scanf("%d", &vendas[i].produtos[0].quantidade);
+            while (getchar() != '\n');
             double preco_unit = produtos[vendas[i].produtos[0].id_produto - 1].preco;
             vendas[i].valor_total = preco_unit * vendas[i].produtos[0].quantidade;
             encontrado = 1;
-            printf("Venda alterada com sucesso!\n");
+            printf("\nVenda alterada com sucesso!\n");
             break;
         }
     }
     if (!encontrado) {
-        printf("Venda não encontrada!\n");
+        printf("\nVenda não encontrada!\n");
     }
 }
 
@@ -83,6 +104,8 @@ void excluir_venda() {
     int id, encontrado = 0;
     printf("Digite o ID da venda a ser excluída: ");
     scanf("%d", &id);
+    while (getchar() != '\n');
+    printf("\n==== EXCLUSÃO DE VENDA ====");
     for (int i = 0; i < ultima_venda_cadastrada; i++) {
         if (vendas[i].id_nota_fiscal == id) {
             for (int j = i; j < ultima_venda_cadastrada - 1; j++) {
@@ -96,7 +119,7 @@ void excluir_venda() {
         }
     }
     if (!encontrado) {
-        printf("Venda não encontrada!\n");
+        printf("\nVenda não encontrada!\n");
     }
 }
 
