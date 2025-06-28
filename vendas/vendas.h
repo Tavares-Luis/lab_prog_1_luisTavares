@@ -20,5 +20,9 @@ void excluir_venda();    // Exclui uma venda
 // Atualiza vendas quando um produto é alterado
 void atualizar_vendas_produto(int id_produto, const char* novo_nome, double novo_preco);
 int existe_venda_com_produto(int id_produto);
+int existe_venda_com_cliente(int id_cliente);
+
+extern Venda vendas[];
+extern int ultima_venda_cadastrada;
 
 #endif

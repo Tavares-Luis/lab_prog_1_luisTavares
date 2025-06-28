@@ -5,6 +5,7 @@ typedef struct {
     char nome[100];
     double preco;
     int ID;
+    int estoque; // Quantidade disponível em estoque
 } Produto;
 
 void insere_produtos();
